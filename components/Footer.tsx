@@ -1,14 +1,23 @@
 "use client";
 
-import { MapPin, Phone, Mail, Youtube, Instagram, Facebook, MessageCircle, X as TwitterX } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Youtube,
+  Instagram,
+  Facebook,
+  MessageCircle,
+  X as TwitterX,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
-// Types for better TypeScript support
+// Types
 interface FooterLinkProps {
-  href?: string; // Made optional to handle undefined values
+  href?: string;
   children: React.ReactNode;
 }
 
@@ -19,54 +28,72 @@ interface SocialIconProps {
   label: string;
 }
 
-// An array for social links for easier management
+// Social Links
 const socialLinks = [
   {
     href: SITE.youtubeUrl,
     icon: Youtube,
     className: "bg-red-600 hover:bg-red-700",
-    label: "Follow us on YouTube"
+    label: "Follow us on YouTube",
   },
   {
     href: SITE.instagramUrl,
     icon: Instagram,
     className: "bg-pink-600 hover:bg-pink-700",
-    label: "Follow us on Instagram"
+    label: "Follow us on Instagram",
   },
   {
     href: SITE.facebookUrl,
     icon: Facebook,
     className: "bg-blue-600 hover:bg-blue-700",
-    label: "Follow us on Facebook"
+    label: "Follow us on Facebook",
   },
   {
     href: SITE.twitterUrl,
     icon: TwitterX,
     className: "bg-black hover:bg-gray-800",
-    label: "Follow us on Twitter/X"
+    label: "Follow us on Twitter/X",
   },
 ];
 
-// Reusable components for cleaner code
+// Footer Link Component
 const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
-  // Don't render if no href provided
-  if (!href || href.trim() === '') return null;
+  if (!href || href.trim() === "") return null;
+
+  // If external link → use <a>
+  const isExternal = href.startsWith("http");
 
   return (
     <li>
-      <Link
-        href={href}
-        className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
-      >
-        {children}
-      </Link>
+      {isExternal ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
+        >
+          {children}
+        </a>
+      ) : (
+        <Link
+          href={href as string}
+          className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
+        >
+          {children}
+        </Link>
+      )}
     </li>
   );
 };
 
-const SocialIcon: React.FC<SocialIconProps> = ({ href, icon: Icon, className, label }) => {
-  // Only render if href exists and is not empty
-  if (!href || href.trim() === '') return null;
+// Social Icon Component
+const SocialIcon: React.FC<SocialIconProps> = ({
+  href,
+  icon: Icon,
+  className,
+  label,
+}) => {
+  if (!href || href.trim() === "") return null;
 
   return (
     <a
@@ -83,8 +110,11 @@ const SocialIcon: React.FC<SocialIconProps> = ({ href, icon: Icon, className, la
 
 export default function Footer() {
   const handleWhatsApp = () => {
-    if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === 'function') {
-      window.open(SITE.whatsAppUrl("Hello! I want to know more about Disha Class."), "_blank");
+    if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === "function") {
+      window.open(
+        SITE.whatsAppUrl("Hello! I want to know more about Disha Class."),
+        "_blank"
+      );
     }
   };
 
@@ -96,7 +126,6 @@ export default function Footer() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
           {/* Brand & App Link */}
           <div className="lg:col-span-4 space-y-4">
             <Link href="/" className="flex items-center space-x-3 group">
@@ -116,10 +145,11 @@ export default function Footer() {
             </Link>
 
             <p className="text-gray-300 text-base pr-4 leading-relaxed">
-              Empowering students with excellent Math & Science education. Your success is our mission.
+              Empowering students with excellent Math & Science education. Your
+              success is our mission.
             </p>
 
-            {/* WhatsApp Button - only show if whatsAppUrl exists */}
+            {/* WhatsApp Button */}
             {SITE.whatsAppUrl && (
               <Button
                 onClick={handleWhatsApp}
@@ -131,7 +161,7 @@ export default function Footer() {
               </Button>
             )}
 
-            {/* Google Play Badge - conditionally render */}
+            {/* Google Play Badge */}
             {SITE.googlePlayUrl && (
               <div className="mt-4">
                 <a
@@ -194,7 +224,12 @@ export default function Footer() {
               {/* Address */}
               {SITE.addressLine1 && (
                 <a
-                  href={SITE.googleMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.addressLine1)}`}
+                  href={
+                    SITE.googleMapsUrl ||
+                    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                      SITE.addressLine1
+                    )}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-start space-x-3 group hover:bg-white/5 p-2 rounded-lg transition-colors"
