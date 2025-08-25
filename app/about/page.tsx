@@ -327,7 +327,7 @@ const OurJourney = () => (
             variants={fadeUp}
           >
             <div className="flex items-center md:justify-normal md:odd:flex-row-reverse">
-              {/* ✅ SUGGESTION 2: Empty div for spacing on alternating sides */}
+              {/* Empty div for spacing on alternating sides */}
               <div className="hidden md:block w-1/2" />
 
               <div className="z-10 absolute left-4 md:left-1/2 w-8 h-8 bg-primary rounded-full text-white flex items-center justify-center -translate-x-1/2 shadow-lg">

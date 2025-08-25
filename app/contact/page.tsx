@@ -1,5 +1,3 @@
-// app/contact/page.tsx
-
 import type { Metadata } from 'next';
 import { SITE } from '@/lib/site';
 import ContactForm from '@/components/forms/ContactForm';
