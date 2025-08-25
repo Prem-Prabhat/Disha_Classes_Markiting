@@ -32,7 +32,7 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We're here to help. Reach out via phone, email, or visit us at our location in Nawada.
+            <span>We&apos;re here to help.</span> Reach out via phone, email, or visit us at our location in Nawada.
           </p>
         </div>
 

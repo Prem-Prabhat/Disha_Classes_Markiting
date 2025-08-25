@@ -1,3 +1,5 @@
+// components/TestimonialsCarousel.tsx
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -44,25 +46,25 @@ export default function TestimonialsCarousel() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [testimonials.length]); // Dependency added for safety
 
-  // Autoplay
+  // Autoplay functionality
   useEffect(() => {
     if (isPaused) return;
 
     autoplayRef.current = window.setInterval(() => {
-      goToIndex((activeIndex + 1) % testimonials.length);
+      const nextIndex = (activeIndex + 1) % testimonials.length;
+      goToIndex(nextIndex);
     }, AUTOPLAY_INTERVAL);
 
     return () => {
       if (autoplayRef.current) {
         clearInterval(autoplayRef.current);
-        autoplayRef.current = null;
       }
     };
   }, [isPaused, activeIndex, testimonials.length]);
 
-  // Scroll to slide horizontally (no vertical jump)
+  // Function to scroll to a specific slide
   function goToIndex(idx: number) {
     const el = slideRefs.current[idx];
     if (el && containerRef.current) {
@@ -74,13 +76,13 @@ export default function TestimonialsCarousel() {
   }
 
   const handlePrev = () => {
-    const prev = (activeIndex - 1 + testimonials.length) % testimonials.length;
-    goToIndex(prev);
+    const prevIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
+    goToIndex(prevIndex);
   };
 
   const handleNext = () => {
-    const next = (activeIndex + 1) % testimonials.length;
-    goToIndex(next);
+    const nextIndex = (activeIndex + 1) % testimonials.length;
+    goToIndex(nextIndex);
   };
 
   // Keyboard navigation
@@ -91,46 +93,44 @@ export default function TestimonialsCarousel() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [activeIndex, testimonials.length]);
+  }, [activeIndex, testimonials.length]); // Functions are stable, so only activeIndex is needed for recalculation logic
 
   return (
     <section className="py-24 bg-gray-50 dark:bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-extrabold text-gray-800 dark:text-white mb-4">
             Real Results, <span className="text-blue-600 dark:text-blue-400">Real Stories</span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Don't just take our word for it. Hear what our successful students have to say about their journey with Disha Class.
+            Don&apos;t just take our word for it. Hear what our successful students have to say about their journey with Disha Class.
           </p>
         </div>
 
         {/* Carousel */}
         <div className="relative">
-          {/* Navigation Arrows (Desktop) */}
+          {/* Navigation Arrows */}
           <button
             aria-label="Previous testimonial"
             onClick={handlePrev}
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md border border-gray-200 hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-20"
+            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-muted shadow-md border dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-700 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-20"
           >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
-
           <button
             aria-label="Next testimonial"
             onClick={handleNext}
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md border border-gray-200 hover:bg-gray-100 absolute right-0 top-1/2 translate-x-2 -translate-y-1/2 z-20"
+            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-muted shadow-md border dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-700 absolute right-0 top-1/2 translate-x-2 -translate-y-1/2 z-20"
           >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+            <ChevronRight className="w-5 h-5" />
           </button>
 
-          {/* Scrollable container (horizontal only) */}
+          {/* Scrollable Container */}
           <div
             ref={containerRef}
             className="w-full overflow-x-auto overflow-y-hidden scroll-smooth touch-pan-x no-scrollbar -mx-4 px-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onFocus={() => setIsPaused(true)}
@@ -139,13 +139,10 @@ export default function TestimonialsCarousel() {
             aria-roledescription="carousel"
             aria-label="Student testimonials"
           >
-            <div
-              className="flex items-stretch gap-6"
-              style={{
-                paddingLeft: "clamp(12px, 6vw, 40px)",
-                paddingRight: "clamp(12px, 6vw, 40px)",
-              }}
-            >
+            <div className="flex items-stretch gap-6" style={{
+              paddingLeft: "clamp(12px, 6vw, 40px)",
+              paddingRight: "clamp(12px, 6vw, 40px)",
+            }}>
               {testimonials.map((t, idx) => (
                 <div
                   key={idx}
@@ -155,7 +152,6 @@ export default function TestimonialsCarousel() {
                   style={{ scrollSnapAlign: "center" }}
                 >
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.96, y: 20 }}
                     animate={{
                       opacity: activeIndex === idx ? 1 : 0.6,
                       scale: activeIndex === idx ? 1.03 : 0.98,
@@ -169,27 +165,26 @@ export default function TestimonialsCarousel() {
                         <div className="flex items-start gap-4">
                           <Quote className="w-8 h-8 text-blue-300 shrink-0" />
                           <p className="text-gray-700 dark:text-gray-200 text-lg italic leading-relaxed">
-                            "{t.text}"
+                            &quot;{t.text}&quot;
                           </p>
                         </div>
-
                         <div className="flex items-center gap-4 pt-4 mt-auto">
-                          <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 dark:bg-neutral-700 flex items-center justify-center">
+                          <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 dark:bg-neutral-700">
                             <Image
-                              src={t.avatar || "https://i.pravatar.cc/150"}
+                              src={t.avatar || `https://i.pravatar.cc/150?u=${idx}`}
                               alt={t.name}
                               width={56}
                               height={56}
                               className="object-cover"
                             />
                           </div>
-                          <div className="flex-grow">
+                          <div>
                             <p className="font-bold text-gray-900 dark:text-white text-base">
                               {t.name}
                             </p>
                             <p className="text-sm text-gray-500 dark:text-gray-400">{t.class}</p>
                           </div>
-                          <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+                          <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold ml-auto">
                             {t.score}
                           </div>
                         </div>
@@ -201,16 +196,15 @@ export default function TestimonialsCarousel() {
             </div>
           </div>
 
-          {/* Dots */}
+          {/* Dots Navigation */}
           <div className="mt-8 flex items-center justify-center gap-3">
             {testimonials.map((_, i) => (
               <button
                 key={i}
                 onClick={() => goToIndex(i)}
                 aria-label={`Go to testimonial ${i + 1}`}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  i === activeIndex ? "bg-blue-600" : "bg-gray-300 dark:bg-neutral-600"
-                }`}
+                className={`w-3 h-3 rounded-full transition-all ${i === activeIndex ? "bg-blue-600 scale-125" : "bg-gray-300 dark:bg-neutral-600"
+                  }`}
               />
             ))}
           </div>

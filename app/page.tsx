@@ -305,7 +305,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <p className="text-primary-foreground/80 text-lg">
-              Have questions? We're here to help.
+              Have questions? <span>We&apos;re here to help.</span>
             </p>
             {SITE.phoneDisplay && (
               <p className="text-primary-foreground/90 font-semibold mt-2">
