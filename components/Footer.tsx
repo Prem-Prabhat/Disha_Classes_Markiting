@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site";
 
 // Types for better TypeScript support
 interface FooterLinkProps {
-  href: string;
+  href?: string; // Made optional to handle undefined values
   children: React.ReactNode;
 }
 
@@ -49,10 +49,13 @@ const socialLinks = [
 
 // Reusable components for cleaner code
 const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
+  // Don't render if no href provided
+  if (!href || href.trim() === '') return null;
+
   return (
     <li>
       <Link
-        href={href || '/'} // Fallback provide karein
+        href={href}
         className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
       >
         {children}
@@ -244,8 +247,8 @@ export default function Footer() {
 
             {/* Social Links */}
             <div className="flex space-x-3">
-              {socialLinks.map((link) => (
-                <SocialIcon key={link.href} {...link} />
+              {socialLinks.map((link, index) => (
+                <SocialIcon key={`${link.href}-${index}`} {...link} />
               ))}
             </div>
           </div>
