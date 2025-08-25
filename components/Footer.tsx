@@ -4,7 +4,6 @@ import { MapPin, Phone, Mail, Youtube, Instagram, Facebook, MessageCircle, X as 
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import { SITE } from "@/lib/site";
 
 // Types for better TypeScript support
@@ -49,16 +48,18 @@ const socialLinks = [
 ];
 
 // Reusable components for cleaner code
-const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
-  <li>
-    <Link
-      href={href}
-      className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
-    >
-      {children}
-    </Link>
-  </li>
-);
+const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
+  return (
+    <li>
+      <Link
+        href={href || '/'} // Fallback provide karein
+        className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
 
 const SocialIcon: React.FC<SocialIconProps> = ({ href, icon: Icon, className, label }) => {
   // Only render if href exists and is not empty

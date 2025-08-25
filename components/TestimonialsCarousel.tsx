@@ -93,8 +93,7 @@ export default function TestimonialsCarousel() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [activeIndex, testimonials.length]); // Functions are stable, so only activeIndex is needed for recalculation logic
-
+  }, [handleNext, handlePrev]); 
   return (
     <section className="py-24 bg-gray-50 dark:bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
