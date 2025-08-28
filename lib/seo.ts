@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import { SITE } from './site';
+import { Metadata } from "next";
+import { SITE } from "./site";
 
 export interface SEOConfig {
   title?: string;
@@ -7,7 +7,8 @@ export interface SEOConfig {
   keywords?: string[];
   image?: string;
   url?: string;
-  type?: 'website' | 'article' | 'product';
+  // FIXED: Removed 'product' as it's not supported by Next.js Metadata['openGraph']['type']
+  type?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
@@ -19,23 +20,25 @@ export function generateMetadata(config: SEOConfig): Metadata {
   const title = config.title ? `${config.title} — ${SITE.title}` : SITE.title;
   const description = config.description || SITE.description;
   const url = config.url ? `${SITE.url}${config.url}` : SITE.url;
-  const image = config.image ? `${SITE.url}${config.image}` : `${SITE.url}/open-graph.png`;
+  const image = config.image
+    ? `${SITE.url}${config.image}`
+    : `${SITE.url}/open-graph.png`;
 
   return {
     title,
     description,
     keywords: config.keywords || [
-      'Disha Class',
-      'coaching center',
-      'Math & Science',
-      '10th class',
-      '11th class', 
-      '12th class',
-      'Nawada',
-      'Bihar',
-      'education',
-      'tutoring',
-      'board exam preparation'
+      "Disha Class",
+      "coaching center",
+      "Math & Science",
+      "10th class",
+      "11th class",
+      "12th class",
+      "Nawada",
+      "Bihar",
+      "education",
+      "tutoring",
+      "board exam preparation",
     ],
     authors: [{ name: SITE.author }],
     creator: SITE.author,
@@ -46,14 +49,14 @@ export function generateMetadata(config: SEOConfig): Metadata {
       googleBot: {
         index: true,
         follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
     openGraph: {
-      type: config.type || 'website',
-      locale: 'en_IN',
+      type: config.type || "website",
+      locale: "en_IN",
       url,
       title,
       description,
@@ -73,147 +76,137 @@ export function generateMetadata(config: SEOConfig): Metadata {
       tags: config.tags,
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title,
       description,
       images: [image],
-      creator: '@Abodh_kumar8',
-      site: '@Abodh_kumar8',
+      creator: "@Abodh_kumar8",
+      site: "@Abodh_kumar8",
     },
     alternates: {
       canonical: url,
     },
-    category: 'education',
+    category: "education",
   };
 }
 
 export function generateOrganizationSchema() {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'EducationalOrganization',
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
     name: SITE.title,
     description: SITE.description,
     url: SITE.url,
     logo: `${SITE.url}/logo.jpg`,
     image: `${SITE.url}/open-graph.png`,
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       streetAddress: SITE.addressLine1,
-      addressLocality: 'Nawada',
-      addressRegion: 'Bihar',
-      postalCode: '805110',
-      addressCountry: 'IN'
+      addressLocality: "Nawada",
+      addressRegion: "Bihar",
+      postalCode: "805110",
+      addressCountry: "IN",
     },
     contactPoint: {
-      '@type': 'ContactPoint',
+      "@type": "ContactPoint",
       telephone: SITE.phone,
-      contactType: 'customer service',
-      areaServed: 'IN',
-      availableLanguage: ['English', 'Hindi']
+      contactType: "customer service",
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi"],
     },
     sameAs: [
       SITE.youtubeUrl,
       SITE.instagramUrl,
       SITE.facebookUrl,
-      SITE.twitterUrl
-    ],
+      SITE.twitterUrl,
+    ].filter(Boolean), // Filter out any undefined URLs
     founder: {
-      '@type': 'Person',
+      "@type": "Person",
       name: SITE.author,
-      jobTitle: 'Founder & Educator'
+      jobTitle: "Founder & Educator",
     },
-    foundingDate: '2016',
-    numberOfEmployees: '5-10',
-    serviceArea: {
-      '@type': 'City',
-      name: 'Nawada'
-    }
+    foundingDate: "2016",
   };
 }
 
 export function generateCourseSchema() {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Course',
-    name: 'Math & Science Coaching',
-    description: 'Comprehensive coaching for 10th, 11th, and 12th grade students in Mathematics and Science',
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: "Math & Science Coaching for 10th, 11th, 12th",
+    description:
+      "Comprehensive coaching for 10th, 11th, and 12th grade students in Mathematics and Science.",
     provider: {
-      '@type': 'EducationalOrganization',
+      "@type": "EducationalOrganization",
       name: SITE.title,
-      url: SITE.url
+      url: SITE.url,
     },
-    coursePrerequisites: 'Basic knowledge of previous grade concepts',
-    educationalLevel: ['Secondary', 'Higher Secondary'],
-    inLanguage: ['English', 'Hindi'],
-    courseMode: ['Online', 'Offline', 'Hybrid'],
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'INR',
-      description: 'Free demo class available'
-    }
   };
 }
 
 export function generateLocalBusinessSchema() {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
     name: SITE.title,
     description: SITE.description,
     url: SITE.url,
     logo: `${SITE.url}/logo.jpg`,
     image: `${SITE.url}/open-graph.png`,
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       streetAddress: SITE.addressLine1,
-      addressLocality: 'Nawada',
-      addressRegion: 'Bihar',
-      postalCode: '805110',
-      addressCountry: 'IN'
+      addressLocality: "Nawada",
+      addressRegion: "Bihar",
+      postalCode: "805110",
+      addressCountry: "IN",
     },
     geo: {
-      '@type': 'GeoCoordinates',
+      "@type": "GeoCoordinates",
       latitude: 24.8903,
-      longitude: 85.5343
+      longitude: 85.5343,
     },
     telephone: SITE.phone,
     email: SITE.email,
-    priceRange: '₹₹',
-    openingHours: 'Mo-Sa 08:00-20:00',
+    priceRange: "₹₹",
+    openingHours: "Mo,Tu,We,Th,Fr,Sa 08:00-20:00",
     sameAs: [
       SITE.youtubeUrl,
       SITE.instagramUrl,
       SITE.facebookUrl,
-      SITE.twitterUrl
-    ]
+      SITE.twitterUrl,
+    ].filter(Boolean),
   };
 }
 
-export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url: string }>) {
+export function generateBreadcrumbSchema(
+  breadcrumbs: Array<{ name: string; url: string }>
+) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
     itemListElement: breadcrumbs.map((crumb, index) => ({
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: index + 1,
       name: crumb.name,
-      item: `${SITE.url}${crumb.url}`
-    }))
+      item: `${SITE.url}${crumb.url}`,
+    })),
   };
 }
 
-export function generateFAQSchema(faqs: Array<{ question: string; answer: string }>) {
+export function generateFAQSchema(
+  faqs: Array<{ question: string; answer: string }>
+) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
-      '@type': 'Question',
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
       name: faq.question,
       acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer
-      }
-    }))
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
   };
 }
