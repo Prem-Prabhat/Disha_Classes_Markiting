@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { sendEmailViaEmailJS } from '@/lib/emailjs';
+import { env } from '@/lib/env';
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -16,21 +17,27 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const parsed = contactSchema.parse(body);
 
-    const useEmail = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID && process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID && process.env.NEXT_PUBLIC_EMAILJS_USER_ID;
+    const useEmail = env.NEXT_PUBLIC_EMAILJS_SERVICE_ID && env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID && env.NEXT_PUBLIC_EMAILJS_USER_ID;
 
     if (useEmail) {
-      await sendEmailViaEmailJS({
-        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        publicKey: process.env.NEXT_PUBLIC_EMAILJS_USER_ID!,
-        templateParams: {
-          form_type: 'contact',
-          name: parsed.name,
-          email: parsed.email,
-          message: parsed.message,
-          recipient: process.env.EMAIL_RECIPIENT ?? ''
-        }
-      });
+      try {
+        await sendEmailViaEmailJS({
+          serviceId: env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+          templateId: env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+          publicKey: env.NEXT_PUBLIC_EMAILJS_USER_ID!,
+          templateParams: {
+            form_type: 'contact',
+            name: parsed.name,
+            email: parsed.email,
+            message: parsed.message,
+            recipient: env.EMAIL_RECIPIENT ?? ''
+          }
+        });
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        // Fallback to in-memory storage if email fails
+        inMemoryContacts.push(parsed);
+      }
     } else {
       inMemoryContacts.push(parsed);
     }

@@ -1,6 +1,5 @@
 'use client'
 
-import type { Metadata } from 'next';
 import ClassProgramsMinimalist from '@/components/ClassProgramsMinimalist';
 import HeroCarousel from '@/components/Crousel';
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
@@ -92,7 +91,7 @@ const BackgroundPattern: React.FC = () => (
 
 // WhatsApp handler
 const handleWhatsApp = () => {
-  if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === 'function') {
+  if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === 'function' && SITE.phone) {
     const message = "Hi! I'm interested in classes at Disha Class. Can you share more info?";
     window.open(SITE.whatsAppUrl(message), "_blank");
   }

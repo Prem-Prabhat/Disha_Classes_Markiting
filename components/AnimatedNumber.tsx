@@ -23,7 +23,9 @@ export default function AnimatedNumber({ to, from = 0, className }: AnimatedNumb
                 ease: "easeOut",
                 onUpdate(value) {
                     // Update the text content of the element on each frame
-                    node.textContent = Math.round(value).toString();
+                    if (node) {
+                        node.textContent = Math.round(value).toString();
+                    }
                 },
             });
 

@@ -13,7 +13,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const addToast = useCallback((t: Omit<Toast, 'id'>) => {
     const id = Math.random().toString(36).slice(2);
     setToasts((prev) => [...prev, { id, ...t }]);
-    setTimeout(() => setToasts((prev) => prev.filter((x) => x.id !== id)), 3500);
+    const timeoutId = setTimeout(() => setToasts((prev) => prev.filter((x) => x.id !== id)), 3500);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const ctx = useMemo(() => ({ addToast }), [addToast]);

@@ -105,6 +105,11 @@ export default function HeroCarousel({ images, className, intervalMs = 5000 }: C
               rel="noopener noreferrer"
               className="btn btn-outline h-11 px-6 border-green-500 text-green-600 hover:bg-green-500 hover:text-white"
               style={{ borderColor: "#22c55e" }}
+              onClick={(e) => {
+                if (!SITE.phone) {
+                  e.preventDefault();
+                }
+              }}
             >
               <MessageCircle className="w-4 h-4 mr-2" /> WhatsApp
             </a>

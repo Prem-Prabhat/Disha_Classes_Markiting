@@ -21,12 +21,22 @@ export default function ContactForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       setLoading(true);
-      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const res = await fetch('/api/contact', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data) 
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData?.error || `HTTP error! status: ${res.status}`);
+      }
+      
       const json = await res.json();
-      if (!res.ok) throw new Error(json?.error || 'Submission failed');
       addToast({ title: 'Message sent', description: 'We will reply soon.', type: 'success' });
       reset();
     } catch (e: any) {
+      console.error('Form submission error:', e);
       addToast({ title: 'Error', description: e.message || 'Please try again.', type: 'error' });
     } finally {
       setLoading(false);

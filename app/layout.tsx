@@ -3,10 +3,11 @@ import './globals.css';
 import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Footer from "@/components/Footer";
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { ToastProvider } from '@/components/ToastProvider';
 import { SITE } from '@/lib/site';
+import { validateEnv } from '@/lib/env';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -38,6 +39,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Validate environment variables in development
+  if (process.env.NODE_ENV === 'development') {
+    validateEnv();
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>

@@ -4,9 +4,15 @@ import { SITE } from '@/lib/site';
 import { MessageCircle } from 'lucide-react';
 
 export default function WhatsAppButton() {
+  const whatsappUrl = SITE.whatsAppUrl('Hello! I have an enquiry about classes.');
+  
+  if (!SITE.phone) {
+    return null;
+  }
+
   return (
     <a
-      href={SITE.whatsAppUrl('Hello! I have an enquiry about classes.')}
+      href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

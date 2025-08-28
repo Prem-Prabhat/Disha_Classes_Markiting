@@ -74,7 +74,7 @@ export default function Navbar() {
   const isActive = (path: string): boolean => pathname === path;
 
   const handleWhatsApp = () => {
-    if (SITE.whatsAppUrl) {
+    if (SITE.whatsAppUrl && SITE.phone) {
       const message = "Hi! I'm interested in classes at Disha Class. Can you share more info?";
       window.open(SITE.whatsAppUrl(message), "_blank");
     }

@@ -15,6 +15,10 @@ const VideoCard = ({ videoId, title, description }: VideoCardProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
+  const handlePlay = () => {
+    setIsPlaying(true);
+  };
+
   return (
     <motion.div
       className="group relative rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-muted/50 shadow-md hover:shadow-xl transition-all"
@@ -24,7 +28,7 @@ const VideoCard = ({ videoId, title, description }: VideoCardProps) => {
       {!isPlaying ? (
         <div
           className="relative w-full aspect-video cursor-pointer"
-          onClick={() => setIsPlaying(true)}
+          onClick={handlePlay}
         >
           {/* Thumbnail */}
           <Image

@@ -15,9 +15,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/site";
 
-// Types
+// ----------------- Types -----------------
 interface FooterLinkProps {
-  href?: string;
+  href: string; 
   children: React.ReactNode;
 }
 
@@ -28,8 +28,8 @@ interface SocialIconProps {
   label: string;
 }
 
-// Social Links
-const socialLinks = [
+// ----------------- Social Links -----------------
+const socialLinks: SocialIconProps[] = [
   {
     href: SITE.youtubeUrl,
     icon: Youtube,
@@ -56,12 +56,10 @@ const socialLinks = [
   },
 ];
 
-// Footer Link Component
+// ----------------- Footer Link -----------------
 const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
-  if (!href || href.trim() === "") return null;
-
-  // If external link → use <a>
-  const isExternal = href.startsWith("http");
+  const isExternal =
+    href.startsWith("http://") || href.startsWith("https://");
 
   return (
     <li>
@@ -76,7 +74,7 @@ const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
         </a>
       ) : (
         <Link
-          href={href as string}
+          href={href as any}
           className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
         >
           {children}
@@ -86,14 +84,14 @@ const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
   );
 };
 
-// Social Icon Component
+// ----------------- Social Icon -----------------
 const SocialIcon: React.FC<SocialIconProps> = ({
   href,
   icon: Icon,
   className,
   label,
 }) => {
-  if (!href || href.trim() === "") return null;
+  if (!href) return null;
 
   return (
     <a
@@ -108,13 +106,16 @@ const SocialIcon: React.FC<SocialIconProps> = ({
   );
 };
 
+// ----------------- Footer -----------------
 export default function Footer() {
   const handleWhatsApp = () => {
-    if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === "function") {
+    if (typeof SITE.whatsAppUrl === "function") {
       window.open(
         SITE.whatsAppUrl("Hello! I want to know more about Disha Class."),
         "_blank"
       );
+    } else if (typeof SITE.whatsAppUrl === "string") {
+      window.open(SITE.whatsAppUrl, "_blank");
     }
   };
 
@@ -277,7 +278,8 @@ export default function Footer() {
         <div className="border-t border-white/10 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-300 text-sm text-center md:text-left">
-              &copy; {new Date().getFullYear()} {SITE.title}. All Rights Reserved.
+              &copy; {new Date().getFullYear()} {SITE.title}. All Rights
+              Reserved.
             </p>
 
             {/* Social Links */}
