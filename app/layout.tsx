@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from 'next-themes';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
@@ -19,6 +20,8 @@ export const metadata: Metadata = generateMetadata({
   description: SITE.description,
   keywords: [
     'Disha Class',
+    'Disha Classes Nawada',
+    'Disha Class Nawada',
     'coaching center',
     'Math & Science',
     '10th class',
@@ -60,6 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </ToastProvider>
           </ErrorBoundary>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
