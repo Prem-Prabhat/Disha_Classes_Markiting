@@ -151,7 +151,8 @@ export default function Footer() {
             </p>
 
             {/* WhatsApp Button */}
-            {SITE.whatsAppUrl && (
+            {(typeof SITE.whatsAppUrl === "string" ||
+              typeof SITE.whatsAppUrl === "function") && (
               <Button
                 onClick={handleWhatsApp}
                 className="w-full justify-center bg-green-500 hover:bg-green-600 text-white h-11 transition-colors"
