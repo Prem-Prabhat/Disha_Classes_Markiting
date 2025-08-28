@@ -24,13 +24,31 @@ export default function AdmissionForm() {
   const onSubmit = async (data: FormValues) => {
     try {
       setLoading(true);
-      const res = await fetch('/api/admission', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json?.error || 'Submission failed');
-      addToast({ title: 'Application submitted', description: 'We will contact you shortly.', type: 'success' });
-      reset();
+      const res = await fetch('/api/admission', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data) 
+      });
+      
+      const responseData = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(responseData?.error || `Request failed with status: ${res.status}`);
+      }
+      
+      if (responseData.success) {
+        addToast({ title: 'Application submitted successfully!', description: 'We will contact you shortly.', type: 'success' });
+        reset();
+      } else {
+        throw new Error(responseData?.error || 'Failed to submit application');
+      }
     } catch (e: any) {
-      addToast({ title: 'Error', description: e.message || 'Please try again.', type: 'error' });
+      console.error('Admission form error:', e);
+      addToast({ 
+        title: 'Error submitting application', 
+        description: e.message || 'Please try again later.', 
+        type: 'error' 
+      });
     } finally {
       setLoading(false);
     }

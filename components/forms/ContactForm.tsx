@@ -27,17 +27,25 @@ export default function ContactForm() {
         body: JSON.stringify(data) 
       });
       
+      const responseData = await res.json();
+      
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData?.error || `HTTP error! status: ${res.status}`);
+        throw new Error(responseData?.error || `Request failed with status: ${res.status}`);
       }
       
-      const json = await res.json();
-      addToast({ title: 'Message sent', description: 'We will reply soon.', type: 'success' });
-      reset();
+      if (responseData.success) {
+        addToast({ title: 'Message sent successfully!', description: 'We will reply to you soon.', type: 'success' });
+        reset();
+      } else {
+        throw new Error(responseData?.error || 'Failed to send message');
+      }
     } catch (e: any) {
       console.error('Form submission error:', e);
-      addToast({ title: 'Error', description: e.message || 'Please try again.', type: 'error' });
+      addToast({ 
+        title: 'Error sending message', 
+        description: e.message || 'Please try again later.', 
+        type: 'error' 
+      });
     } finally {
       setLoading(false);
     }

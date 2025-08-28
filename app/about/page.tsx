@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { SITE } from "@/lib/site";
 import AnimatedNumber from "@/components/AnimatedNumber";
+import StructuredData from '@/components/StructuredData';
+import { generateLocalBusinessSchema } from '@/lib/seo';
 
 {/*
 export const metadata: Metadata = {
@@ -107,16 +109,19 @@ const staggerContainer = {
 // Main Page Component
 export default function AboutPage() {
   return (
-    <main className="bg-background text-foreground">
+    <>
+      <StructuredData data={generateLocalBusinessSchema()} />
+      <main className="bg-background text-foreground">
       <AboutHero />
       <Achievements />
       <EducatorProfile />
       <OurValues />
-      <OurJourney />
-      <VisionCTA />
-    </main>
-  );
-}
+             <OurJourney />
+       <VisionCTA />
+       </main>
+     </>
+   );
+ }
 
 // 1. Hero Section
 const AboutHero = () => (

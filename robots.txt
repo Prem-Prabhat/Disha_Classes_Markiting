@@ -1,5 +1,20 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.dishaclass.com/sitemap.xml
+# Disallow admin and private areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow important pages
+Allow: /
+Allow: /about
+Allow: /contact
+Allow: /classes
+
+# Sitemap
+Sitemap: https://www.dishaclass.in/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
 

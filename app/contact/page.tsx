@@ -4,21 +4,14 @@ import ContactForm from '@/components/forms/ContactForm';
 import Link from 'next/link';
 import { Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { generateMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
-  title: `Contact — ${SITE.title}`,
-  description: 'Get in touch with Disha Class. Location and contact details.',
-  openGraph: {
-    title: `Contact — ${SITE.title}`,
-    description: 'Get in touch with Disha Class. Location and contact details.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary',
-    title: `Contact — ${SITE.title}`,
-    description: 'Get in touch with Disha Class. Location and contact details.',
-  },
-};
+export const metadata: Metadata = generateMetadata({
+  title: 'Contact Us',
+  description: 'Get in touch with Disha Class. Visit our location in Nawada, Bihar or contact us via phone, email, or WhatsApp for Math & Science coaching.',
+  keywords: ['contact Disha Class', 'Nawada coaching center', 'Math Science tutor contact', 'Disha Class location'],
+  url: '/contact'
+});
 
 export default function ContactPage() {
   const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(SITE.addressLine1)}`;

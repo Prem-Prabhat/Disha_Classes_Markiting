@@ -5,8 +5,10 @@ import HeroCarousel from '@/components/Crousel';
 import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import { Button } from '@/components/ui/button';
 import YouTubePreview from '@/components/YouTubePreview';
+import StructuredData from '@/components/StructuredData';
 import { ClassLevels, Features } from '@/lib/data';
 import { SITE } from '@/lib/site';
+import { generateCourseSchema, generateLocalBusinessSchema } from '@/lib/seo';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, MessageCircle } from "lucide-react";
 import Image from 'next/image';
@@ -99,7 +101,10 @@ const handleWhatsApp = () => {
 
 export default function HomePage() {
   return (
-    <main>
+    <>
+      <StructuredData data={generateCourseSchema()} />
+      <StructuredData data={generateLocalBusinessSchema()} />
+      <main>
       {/* Hero Carousel */}
       <section className="container-balanced" aria-label="Hero carousel showcasing Disha Class">
         <HeroCarousel images={images} />
@@ -314,6 +319,7 @@ export default function HomePage() {
           </motion.div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

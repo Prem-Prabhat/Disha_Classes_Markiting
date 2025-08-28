@@ -26,7 +26,7 @@ export const SITE = {
     return `https://wa.me/${this.phone}?text=${encoded}`;
   },
 
-  email: "admin@dishaclass.com",
+  email: "admin@dishaclass.in",
 
   addressLine1: "Prasad Bigha, Near Narad Museum, Nawada, Bihar 805110",
 

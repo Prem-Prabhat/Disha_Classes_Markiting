@@ -5,16 +5,18 @@ import { env } from '@/lib/env';
 import { RateLimiter, sanitizeInput } from '@/lib/security';
 
 // Initialize rate limiter
-const rateLimiter = new RateLimiter(5, 60000); // 5 requests per minute
+const rateLimiter = new RateLimiter(3, 60000); // 3 requests per minute for admission
 
-const contactSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  message: z.string().min(10)
+const admissionSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  phone: z.string().min(10, 'Phone must be at least 10 characters').max(15, 'Phone must be at most 15 characters'),
+  email: z.string().email('Invalid email format').optional().or(z.literal('')),
+  grade: z.enum(['10', '11', '12'], { required_error: 'Please select a grade' }),
+  message: z.string().min(10, 'Message must be at least 10 characters')
 });
 
-type Contact = z.infer<typeof contactSchema>;
-const inMemoryContacts: Contact[] = [];
+type Admission = z.infer<typeof admissionSchema>;
+const inMemoryAdmissions: Admission[] = [];
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,11 +34,13 @@ export async function POST(req: NextRequest) {
     // Sanitize inputs
     const sanitizedBody = {
       name: sanitizeInput(body.name || ''),
-      email: sanitizeInput(body.email || ''),
+      phone: sanitizeInput(body.phone || ''),
+      email: body.email ? sanitizeInput(body.email) : '',
+      grade: body.grade,
       message: sanitizeInput(body.message || '')
     };
     
-    const parsed = contactSchema.parse(sanitizedBody);
+    const parsed = admissionSchema.parse(sanitizedBody);
 
     const useEmail = env.NEXT_PUBLIC_EMAILJS_SERVICE_ID && env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID && env.NEXT_PUBLIC_EMAILJS_USER_ID;
 
@@ -47,9 +51,11 @@ export async function POST(req: NextRequest) {
           templateId: env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
           publicKey: env.NEXT_PUBLIC_EMAILJS_USER_ID!,
           templateParams: {
-            form_type: 'contact',
+            form_type: 'admission',
             name: parsed.name,
-            email: parsed.email,
+            phone: parsed.phone,
+            email: parsed.email || 'Not provided',
+            grade: parsed.grade,
             message: parsed.message,
             recipient: env.EMAIL_RECIPIENT ?? ''
           }
@@ -57,18 +63,18 @@ export async function POST(req: NextRequest) {
       } catch (emailError) {
         console.error('Email sending failed:', emailError);
         // Fallback to in-memory storage if email fails
-        inMemoryContacts.push(parsed);
+        inMemoryAdmissions.push(parsed);
       }
     } else {
-      inMemoryContacts.push(parsed);
+      inMemoryAdmissions.push(parsed);
     }
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Message sent successfully' 
+      message: 'Admission application submitted successfully' 
     });
   } catch (e: any) {
-    console.error('Contact API error:', e);
+    console.error('Admission API error:', e);
     const msg = e?.message || 'Invalid request data';
     return NextResponse.json({ 
       success: false, 
@@ -76,4 +82,3 @@ export async function POST(req: NextRequest) {
     }, { status: 400 });
   }
 }
-
