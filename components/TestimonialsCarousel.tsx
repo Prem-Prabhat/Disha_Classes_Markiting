@@ -97,14 +97,17 @@ export default function TestimonialsCarousel() {
   return (
     <section className="py-24 bg-gray-50 dark:bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-extrabold text-gray-800 dark:text-white mb-4">
-            Real Results, <span className="text-blue-600 dark:text-blue-400">Real Stories</span>
+            Real Results,{" "}
+            <span className="text-blue-600 dark:text-blue-400">
+              Real Stories
+            </span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Don&apos;t just take our word for it. Hear what our successful students have to say about their journey with Disha Class.
+            Don&apos;t just take our word for it. Hear what our successful
+            students have to say about their journey with Disha Class.
           </p>
         </div>
 
@@ -138,15 +141,20 @@ export default function TestimonialsCarousel() {
             aria-roledescription="carousel"
             aria-label="Student testimonials"
           >
-            <div className="flex items-stretch gap-6" style={{
-              paddingLeft: "clamp(12px, 6vw, 40px)",
-              paddingRight: "clamp(12px, 6vw, 40px)",
-            }}>
+            <div
+              className="flex items-stretch gap-6"
+              style={{
+                paddingLeft: "clamp(12px, 6vw, 40px)",
+                paddingRight: "clamp(12px, 6vw, 40px)",
+              }}
+            >
               {testimonials.map((t, idx) => (
                 <div
                   key={idx}
                   data-idx={idx}
-                  ref={(el) => (slideRefs.current[idx] = el)}
+                  ref={(el) => {
+                    slideRefs.current[idx] = el;
+                  }}
                   className="shrink-0 w-full sm:w-[70%] md:w-[40%] lg:w-[33.333%]"
                   style={{ scrollSnapAlign: "center" }}
                 >
@@ -155,7 +163,11 @@ export default function TestimonialsCarousel() {
                       opacity: activeIndex === idx ? 1 : 0.6,
                       scale: activeIndex === idx ? 1.03 : 0.98,
                       y: activeIndex === idx ? 0 : 6,
-                      transition: { type: "spring", stiffness: 160, damping: 18 },
+                      transition: {
+                        type: "spring",
+                        stiffness: 160,
+                        damping: 18,
+                      },
                     }}
                     className="h-full"
                   >
@@ -170,7 +182,9 @@ export default function TestimonialsCarousel() {
                         <div className="flex items-center gap-4 pt-4 mt-auto">
                           <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 dark:bg-neutral-700">
                             <Image
-                              src={t.avatar || `https://i.pravatar.cc/150?u=${idx}`}
+                              src={
+                                t.avatar || `https://i.pravatar.cc/150?u=${idx}`
+                              }
                               alt={t.name}
                               width={56}
                               height={56}
@@ -181,7 +195,9 @@ export default function TestimonialsCarousel() {
                             <p className="font-bold text-gray-900 dark:text-white text-base">
                               {t.name}
                             </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">{t.class}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {t.class}
+                            </p>
                           </div>
                           <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold ml-auto">
                             {t.score}
@@ -202,8 +218,11 @@ export default function TestimonialsCarousel() {
                 key={i}
                 onClick={() => goToIndex(i)}
                 aria-label={`Go to testimonial ${i + 1}`}
-                className={`w-3 h-3 rounded-full transition-all ${i === activeIndex ? "bg-blue-600 scale-125" : "bg-gray-300 dark:bg-neutral-600"
-                  }`}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  i === activeIndex
+                    ? "bg-blue-600 scale-125"
+                    : "bg-gray-300 dark:bg-neutral-600"
+                }`}
               />
             ))}
           </div>
