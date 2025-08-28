@@ -27,7 +27,8 @@ export default function Error({
             Something went wrong
           </h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            We're sorry, but something unexpected happened. Please try again.
+            We&apos;re sorry, but something unexpected happened. Please try
+            again.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
             <Button
