@@ -4,8 +4,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  typedRoutes: true,
   experimental: {
-    typedRoutes: true,
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
   images: {
