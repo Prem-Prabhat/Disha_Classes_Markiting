@@ -92,7 +92,7 @@ export default function ClassProgramsMinimalist() {
               transition={{ delay: index * 0.1 }}
               className="h-full"
             >
-              <Link href={program.href} className="block h-full">
+              <Link href={program.href as any} className="block h-full">
                 <SpotlightCard className="h-full transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1" spotlightColor={program.spotlight}>
                   <div className="p-8 h-full flex flex-col">
 

@@ -37,13 +37,13 @@ export const InfiniteMovingCards = ({
         if (start) {
             getDirection();
         }
-    }, [direction, start]);
+    }, [direction, start, getDirection]);
 
     useEffect(() => {
         if (start) {
             getSpeed();
         }
-    }, [speed, start]);
+    }, [speed, start, getSpeed]);
 
     function addAnimation() {
         if (containerRef.current && scrollerRef.current) {
@@ -63,7 +63,7 @@ export const InfiniteMovingCards = ({
         }
     }
 
-    const getDirection = () => {
+    const getDirection = React.useCallback(() => {
         if (containerRef.current) {
             if (direction === "left") {
                 containerRef.current.style.setProperty(
@@ -77,9 +77,9 @@ export const InfiniteMovingCards = ({
                 );
             }
         }
-    };
+    }, [direction]);
 
-    const getSpeed = () => {
+    const getSpeed = React.useCallback(() => {
         if (containerRef.current) {
             if (speed === "fast") {
                 containerRef.current.style.setProperty("--animation-duration", "20s");
@@ -89,7 +89,7 @@ export const InfiniteMovingCards = ({
                 containerRef.current.style.setProperty("--animation-duration", "80s");
             }
         }
-    };
+    }, [speed]);
 
     return (
         <div
