@@ -127,7 +127,7 @@ export default function Navbar() {
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
-                    href={item.path}
+                    href={item.path as any}
                     className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${isActive(item.path)
                       ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10"
                       : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/50 dark:hover:bg-white/5"
