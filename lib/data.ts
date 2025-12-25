@@ -45,32 +45,39 @@ const Videos = [
 // Testimonials data
 const Testimonials = [
   {
-    name: "Priya Sharma",
+    name: "Sneha Kumari",
     class: "Class 12th Topper",
     score: "95%",
-    text: "The personalized attention and smart teaching methods at Disha Class were game-changing. I finally understood concepts that I struggled with for years!",
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    name: "Rahul Kumar",
-    class: "Class 10th Achiever",
-    score: "92%",
-    text: "The teachers here are incredibly supportive and make learning fun. The regular tests helped me build confidence and manage my time effectively during the board exams.",
-    avatar: "https://i.pravatar.cc/150?img=3",
-  },
-  {
-    name: "Anjali Singh",
-    class: "Class 11th Foundation",
-    score: "90%",
-    text: "Disha Class is the best place to build a strong foundation for Math and Science. The concepts are taught with such clarity that it makes preparing for future exams much easier.",
+    text: "Physics ke numericals se hamesha darr lagta tha, par Abodh Sir ne basics itne acche se clear kiye ki ab numericals solve karne mein maza aata hai. Confidence aa gaya!",
     avatar: "https://i.pravatar.cc/150?img=5",
   },
   {
-    name: "Vikram Reddy",
+    name: "Amit Raj",
+    class: "Class 10th Achiever",
+    score: "92%",
+    text: "Yahan ke weekly tests ne bahut help ki. Exam ka darr khatam ho gaya kyunki hum pehle hi waisa environment face kar chuke the. Digital notes bhi revision ke liye best hain.",
+    avatar: "https://i.pravatar.cc/150?img=11",
+  },
+  {
+    name: "Rohan Gupta",
+    class: "Class 11th Foundation",
+    score: "90%",
+    text: "School ke baad time manage karna mushkil tha, par Disha Class ke evening batch se meri padhai disturb nahi hui. Teachers hamesha doubts batane ke liye ready rehte hain.",
+    avatar: "https://i.pravatar.cc/150?img=13",
+  },
+  {
+    name: "Pooja Verma",
     class: "Class 12th Achiever",
     score: "94%",
-    text: "The study materials and mock tests were extremely helpful. The faculty is always available to clear doubts, which made a huge difference in my preparation.",
-    avatar: "https://i.pravatar.cc/150?img=7",
+    text: "Organic Chemistry mujhe kabhi samajh nahi aati thi. Lekin yahan ke practical examples aur tricks ne sab kuch aasan bana diya. Best coaching in our area!",
+    avatar: "https://i.pravatar.cc/150?img=9",
+  },
+  {
+    name: "Vikas Kumar",
+    class: "JEE Aspirant",
+    score: "Selected",
+    text: "Foundation batch lene ka decision best tha. 11th se hi competition level ki tayari shuru ho gayi thi. Aaj main engineering college mein hoon toh sirf Disha Class ki wajah se.",
+    avatar: "https://i.pravatar.cc/150?img=60",
   },
 ];
 

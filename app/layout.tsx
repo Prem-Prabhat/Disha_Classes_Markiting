@@ -42,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData data={generateOrganizationSchema()} />
       </head>
       <body className={`${inter.variable} ${outfit.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <ErrorBoundary>
             <ToastProvider>
               <Navbar />

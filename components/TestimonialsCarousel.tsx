@@ -1,230 +1,66 @@
-// components/TestimonialsCarousel.tsx
-
 "use client";
-
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { Testimonials } from "@/lib/data";
-
-// Settings
-const AUTOPLAY_INTERVAL = 4500; // ms
-const VISIBLE_THRESHOLD = 0.55; // IntersectionObserver threshold
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 export default function TestimonialsCarousel() {
-  const testimonials = Testimonials;
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const autoplayRef = useRef<number | null>(null);
+  const [direction, setDirection] = useState < "left" | "right" > ("left");
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // IntersectionObserver to detect active slide
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const idx = Number(entry.target.getAttribute("data-idx"));
-          if (entry.intersectionRatio >= VISIBLE_THRESHOLD) {
-            setActiveIndex(idx);
-          }
-        });
-      },
-      {
-        root: containerRef.current,
-        threshold: [0.25, 0.5, 0.6, 0.75],
-      }
-    );
-
-    slideRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [testimonials.length]); // Dependency added for safety
-
-  // Autoplay functionality
-  useEffect(() => {
-    if (isPaused) return;
-
-    autoplayRef.current = window.setInterval(() => {
-      const nextIndex = (activeIndex + 1) % testimonials.length;
-      goToIndex(nextIndex);
-    }, AUTOPLAY_INTERVAL);
-
-    return () => {
-      if (autoplayRef.current) {
-        clearInterval(autoplayRef.current);
-      }
-    };
-  }, [isPaused, activeIndex, testimonials.length]);
-
-  // Function to scroll to a specific slide
-  function goToIndex(idx: number) {
-    const el = slideRefs.current[idx];
-    if (el && containerRef.current) {
-      containerRef.current.scrollTo({
-        left: el.offsetLeft - containerRef.current.offsetLeft,
-        behavior: "smooth",
-      });
-    }
-  }
-
-  const handlePrev = () => {
-    const prevIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
-    goToIndex(prevIndex);
-  };
-
-  const handleNext = () => {
-    const nextIndex = (activeIndex + 1) % testimonials.length;
-    goToIndex(nextIndex);
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") handlePrev();
-      if (e.key === "ArrowRight") handleNext();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [activeIndex, testimonials.length]); 
   return (
-    <section className="py-24 bg-gray-50 dark:bg-background overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-16 bg-gray-50 dark:bg-[#030303] overflow-hidden relative">
+      {/* Background Gradients */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gray-50 dark:bg-[#030303] -z-10" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none hidden dark:block" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none hidden dark:block" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-gray-800 dark:text-white mb-4">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-semibold text-sm mb-6 border border-blue-200 dark:border-blue-800/50 backdrop-blur-sm">
+            ✨ Student Success Stories
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight font-heading">
             Real Results,{" "}
-            <span className="text-blue-600 dark:text-blue-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">
               Real Stories
             </span>
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Don&apos;t just take our word for it. Hear what our successful
-            students have to say about their journey with Disha Class.
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            Don&apos;t just take our word for it. See what our toppers have to say about their journey with Disha Class.
+          </p>
+          {/* Subtle Interaction Hint */}
+          <p className="text-sm text-gray-400 dark:text-gray-600 mt-4 animate-pulse">
+            ← Use arrows to control direction & speed →
           </p>
         </div>
 
-        {/* Carousel */}
-        <div className="relative">
-          {/* Navigation Arrows */}
+        {/* Infinite Marquee with Controls */}
+        <div className="relative group">
+          {/* Left Control */}
           <button
-            aria-label="Previous testimonial"
-            onClick={handlePrev}
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-muted shadow-md border dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-700 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-20"
+            onClick={() => setDirection("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 bg-white/80 dark:bg-black/50 backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-full shadow-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all opacity-0 group-hover:opacity-100 translate-x-4 md:-translate-x-12"
+            aria-label="Scroll Left"
           >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            aria-label="Next testimonial"
-            onClick={handleNext}
-            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-muted shadow-md border dark:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-700 absolute right-0 top-1/2 translate-x-2 -translate-y-1/2 z-20"
-          >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronLeft className="w-6 h-6 text-gray-700 dark:text-white" />
           </button>
 
-          {/* Scrollable Container */}
-          <div
-            ref={containerRef}
-            className="w-full overflow-x-auto overflow-y-hidden scroll-smooth touch-pan-x no-scrollbar -mx-4 px-4"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onFocus={() => setIsPaused(true)}
-            onBlur={() => setIsPaused(false)}
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Student testimonials"
+          {/* Right Control */}
+          <button
+            onClick={() => setDirection("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-30 p-2 md:p-3 bg-white/80 dark:bg-black/50 backdrop-blur-md border border-gray-200 dark:border-white/10 rounded-full shadow-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all opacity-0 group-hover:opacity-100 -translate-x-4 md:translate-x-12"
+            aria-label="Scroll Right"
           >
-            <div
-              className="flex items-stretch gap-6"
-              style={{
-                paddingLeft: "clamp(12px, 6vw, 40px)",
-                paddingRight: "clamp(12px, 6vw, 40px)",
-              }}
-            >
-              {testimonials.map((t, idx) => (
-                <div
-                  key={idx}
-                  data-idx={idx}
-                  ref={(el) => {
-                    slideRefs.current[idx] = el;
-                  }}
-                  className="shrink-0 w-full sm:w-[70%] md:w-[40%] lg:w-[33.333%]"
-                  style={{ scrollSnapAlign: "center" }}
-                >
-                  <motion.div
-                    animate={{
-                      opacity: activeIndex === idx ? 1 : 0.6,
-                      scale: activeIndex === idx ? 1.03 : 0.98,
-                      y: activeIndex === idx ? 0 : 6,
-                      transition: {
-                        type: "spring",
-                        stiffness: 160,
-                        damping: 18,
-                      },
-                    }}
-                    className="h-full"
-                  >
-                    <Card className="h-full flex flex-col rounded-2xl bg-white dark:bg-muted border border-gray-200/70 dark:border-neutral-700 shadow-sm p-6">
-                      <CardContent className="flex flex-col gap-6 p-0 h-full">
-                        <div className="flex items-start gap-4">
-                          <Quote className="w-8 h-8 text-blue-300 shrink-0" />
-                          <p className="text-gray-700 dark:text-gray-200 text-lg italic leading-relaxed">
-                            &quot;{t.text}&quot;
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-4 pt-4 mt-auto">
-                          <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 dark:bg-neutral-700">
-                            <Image
-                              src={
-                                t.avatar || `https://i.pravatar.cc/150?u=${idx}`
-                              }
-                              alt={t.name}
-                              width={56}
-                              height={56}
-                              className="object-cover"
-                            />
-                          </div>
-                          <div>
-                            <p className="font-bold text-gray-900 dark:text-white text-base">
-                              {t.name}
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              {t.class}
-                            </p>
-                          </div>
-                          <div className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold ml-auto">
-                            {t.score}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-          </div>
+            <ChevronRight className="w-6 h-6 text-gray-700 dark:text-white" />
+          </button>
 
-          {/* Dots Navigation */}
-          <div className="mt-8 flex items-center justify-center gap-3">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goToIndex(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
-                className={`w-3 h-3 rounded-full transition-all ${
-                  i === activeIndex
-                    ? "bg-blue-600 scale-125"
-                    : "bg-gray-300 dark:bg-neutral-600"
-                }`}
-              />
-            ))}
+          <div className="relative flex flex-col items-center justify-center overflow-hidden antialiased py-4">
+            <InfiniteMovingCards
+              items={Testimonials}
+              direction={direction}
+              speed="slow"
+            />
           </div>
         </div>
       </div>

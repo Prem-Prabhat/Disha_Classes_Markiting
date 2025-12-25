@@ -99,14 +99,17 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden bg-[#030303] border-t border-white/5">
+    <footer className="relative overflow-hidden bg-gray-100 dark:bg-[#030303] border-t border-gray-200 dark:border-white/5 transition-colors duration-300">
+      {/* Grid Background Pattern - Inverted for Light Mode */}
+      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.05] dark:opacity-[0.15] invert dark:invert-0 pointer-events-none" />
+
       {/* Consistent Premium Aurora Background */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
-        <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] mix-blend-lighten opacity-50" />
-        <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] mix-blend-lighten opacity-50" />
+        <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-lighten opacity-50" />
+        <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-lighten opacity-50" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-white">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-gray-900 dark:text-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           {/* Brand & Description */}
           <div className="lg:col-span-4 space-y-6">
@@ -118,25 +121,25 @@ export default function Footer() {
                   alt="Disha Class Logo"
                   width={48}
                   height={48}
-                  className="relative rounded-xl object-contain ring-1 ring-white/10 group-hover:ring-blue-500/50 transition-all duration-300 group-hover:scale-105"
+                  className="relative rounded-xl object-contain ring-1 ring-gray-200 dark:ring-white/10 group-hover:ring-blue-500/50 transition-all duration-300 group-hover:scale-105"
                   priority={false}
                   style={{ width: "auto", height: "auto" }}
                 />
               </div>
               <div>
-                <span className="text-xl font-bold font-heading bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-gray-400 group-hover:to-white transition-all block">
+                <span className="text-xl font-bold font-heading bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-600 dark:from-white dark:via-blue-200 dark:to-gray-400 group-hover:to-blue-600 dark:group-hover:to-white transition-all block">
                   दिशा Class
                 </span>
-                <span className="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5">
+                <span className="text-[10px] text-gray-500 dark:text-gray-500 flex items-center gap-1 mt-0.5">
                   <Sparkles className="w-2.5 h-2.5" />
                   Since 2016
                 </span>
               </div>
             </Link>
 
-            <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-sm">
               Empowering students with excellent{" "}
-              <span className="text-blue-400 font-medium">Math & Science</span>{" "}
+              <span className="text-blue-600 dark:text-blue-400 font-medium">Math & Science</span>{" "}
               education. Bridging the gap between potential and performance.
             </p>
 
@@ -171,7 +174,7 @@ export default function Footer() {
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {/* Quick Links */}
             <div className="group">
-              <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
                 Quick Links
               </h3>
@@ -186,7 +189,7 @@ export default function Footer() {
 
             {/* Programs */}
             <div>
-              <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <span className="w-1 h-5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full" />
                 Our Programs
               </h3>
@@ -199,9 +202,9 @@ export default function Footer() {
                   >
                     <Link
                       href={program.href as any}
-                      className="group/program flex items-center text-sm text-gray-400 hover:text-blue-400 transition-all duration-300"
+                      className="group/program flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300"
                     >
-                      <span className="text-[10px] font-mono text-gray-600 mr-3 group-hover/program:text-blue-500 transition-colors font-bold">
+                      <span className="text-[10px] font-mono text-gray-500 dark:text-gray-600 mr-3 group-hover/program:text-blue-500 transition-colors font-bold">
                         0{index + 1}
                       </span>
                       <span
@@ -226,7 +229,7 @@ export default function Footer() {
             {/* Contact Info */}
             <div className="space-y-6">
               <div>
-                <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+                <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                   <span className="w-1 h-5 bg-gradient-to-b from-pink-500 to-orange-500 rounded-full" />
                   Get in Touch
                 </h3>
@@ -246,9 +249,9 @@ export default function Footer() {
                     >
                       <div className="relative">
                         <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-md opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300" />
-                        <MapPin className="relative w-5 h-5 text-gray-500 group-hover/contact:text-blue-400 transition-all duration-300 mt-0.5 group-hover/contact:scale-110" />
+                        <MapPin className="relative w-5 h-5 text-gray-500 group-hover/contact:text-blue-500 dark:group-hover/contact:text-blue-400 transition-all duration-300 mt-0.5 group-hover/contact:scale-110" />
                       </div>
-                      <span className="text-sm text-gray-400 group-hover/contact:text-gray-200 transition-colors">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 group-hover/contact:text-gray-900 dark:group-hover/contact:text-gray-200 transition-colors">
                         {SITE.addressLine1}
                       </span>
                     </a>
@@ -262,9 +265,9 @@ export default function Footer() {
                     >
                       <div className="relative">
                         <div className="absolute inset-0 bg-green-500/20 rounded-lg blur-md opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300" />
-                        <Phone className="relative w-5 h-5 text-gray-500 group-hover/contact:text-green-400 transition-all duration-300 group-hover/contact:scale-110 group-hover/contact:rotate-12" />
+                        <Phone className="relative w-5 h-5 text-gray-500 group-hover/contact:text-green-600 dark:group-hover/contact:text-green-400 transition-all duration-300 group-hover/contact:scale-110 group-hover/contact:rotate-12" />
                       </div>
-                      <span className="text-sm text-gray-400 group-hover/contact:text-gray-200 transition-colors">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 group-hover/contact:text-gray-900 dark:group-hover/contact:text-gray-200 transition-colors">
                         {SITE.phoneDisplay || SITE.phone}
                       </span>
                     </a>
@@ -278,9 +281,9 @@ export default function Footer() {
                     >
                       <div className="relative">
                         <div className="absolute inset-0 bg-yellow-500/20 rounded-lg blur-md opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300" />
-                        <Mail className="relative w-5 h-5 text-gray-500 group-hover/contact:text-yellow-400 transition-all duration-300 group-hover/contact:scale-110" />
+                        <Mail className="relative w-5 h-5 text-gray-500 group-hover/contact:text-yellow-600 dark:group-hover/contact:text-yellow-400 transition-all duration-300 group-hover/contact:scale-110" />
                       </div>
-                      <span className="text-sm text-gray-400 group-hover/contact:text-gray-200 transition-colors break-all">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 group-hover/contact:text-gray-900 dark:group-hover/contact:text-gray-200 transition-colors break-all">
                         {SITE.email}
                       </span>
                     </a>
@@ -292,7 +295,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="relative border-t border-white/5 mt-16 pt-8">
+        <div className="relative border-t border-gray-200 dark:border-white/5 mt-16 pt-8">
           {/* Gradient Line */}
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
 

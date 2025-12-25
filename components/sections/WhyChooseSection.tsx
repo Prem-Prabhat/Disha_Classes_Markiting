@@ -125,7 +125,7 @@ export default function WhyChooseSection() {
                             </span>
                         </h2>
                         <p className="font-sans text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
-                            We don't just teach chapters; we build confidence. Experience a learning system designed for your success.
+                            We don&apos;t just teach chapters; we build confidence. Experience a learning system designed for your success.
                         </p>
                     </motion.div>
                 </div>

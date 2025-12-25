@@ -36,36 +36,40 @@ export default function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
-  // Optimized scroll handler with useCallback
+  // Optimized scroll handler
   const handleScroll = useCallback(() => {
     const currentY = window.scrollY;
+
+    // Throttle checks
+    if (Math.abs(currentY - lastScrollY.current) < 5) return;
+
     setScrolled(currentY > 10);
     setShrink(currentY > 80);
+
     if (currentY > lastScrollY.current && currentY > 100) {
-      setShowNavbar(false); // scrolling down
+      setShowNavbar(false);
     } else {
-      setShowNavbar(true); // scrolling up
+      setShowNavbar(true);
     }
     lastScrollY.current = currentY;
   }, []);
 
   // Effect to add and remove scroll listener
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-  }, [isOpen]);
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [handleScroll]);
 
   const isActive = (path: string): boolean => pathname === path;
 
@@ -86,7 +90,7 @@ export default function Navbar() {
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -80, opacity: 0 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.3 }}
           className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
             ? "bg-white/80 dark:bg-[#030303]/75 backdrop-blur-md border-b border-gray-200 dark:border-white/5 shadow-sm"
             : "bg-transparent border-b border-transparent py-2"
@@ -123,8 +127,8 @@ export default function Navbar() {
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
-                    href={item.path as any} // FIXED: Type error ko theek karne ke liye
-                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${isActive(item.path)
+                    href={item.path}
+                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${isActive(item.path)
                       ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10"
                       : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/50 dark:hover:bg-white/5"
                       }`}

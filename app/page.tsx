@@ -89,18 +89,10 @@ export default function HomePage() {
         <ClassProgramsMinimalist />
 
         {/* YouTube Previews */}
-        <section className="container-balanced py-16" aria-labelledby="demo-videos-heading">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <YouTubePreview videos={demoVideos} />
-          </div>
-        </section>
 
         {/* Testimonials */}
-        <section className="container-balanced py-16" aria-labelledby="testimonials-heading">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <TestimonialsCarousel />
-          </div>
-        </section>
+        <TestimonialsCarousel />
 
         {/* Final CTA */}
         <CTASection />
