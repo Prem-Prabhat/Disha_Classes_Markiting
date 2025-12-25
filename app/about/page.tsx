@@ -1,32 +1,14 @@
 "use client";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { CheckCircle, Award, Users, BookOpen, Target, Heart, ExternalLink } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from 'next/link';
-import { SITE } from "@/lib/site";
 import AnimatedNumber from "@/components/AnimatedNumber";
 import StructuredData from '@/components/StructuredData';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { generateLocalBusinessSchema } from '@/lib/seo';
+import { motion } from "framer-motion";
+import { Award, BookOpen, CheckCircle, ExternalLink, Heart, Target, Users } from "lucide-react";
+import Image from "next/image";
 
-{/*
-export const metadata: Metadata = {
-  title: `About Us — ${SITE.title}`,
-  description: `Learn about the journey, values, and vision of Disha Class, a leading coaching center in Nawada for Math & Science.`,
-  openGraph: {
-    title: `About Us — ${SITE.title}`,
-    description: `Discover the mission behind Disha Class.`,
-    url: `${SITE.url}/about`,
-    images: [`${SITE.url}/open-graph.png`], 
-  },
-  twitter: {
-    title: `About Us — ${SITE.title}`,
-    description: `Learn about the journey, values, and vision of Disha Class.`,
-    images: [`${SITE.url}/open-graph.png`],
-  }
-};
-*/}
+
 
 // Types
 interface Achievement {
@@ -112,16 +94,16 @@ export default function AboutPage() {
     <>
       <StructuredData data={generateLocalBusinessSchema()} />
       <main className="bg-background text-foreground">
-      <AboutHero />
-      <Achievements />
-      <EducatorProfile />
-      <OurValues />
-             <OurJourney />
-       <VisionCTA />
-       </main>
-     </>
-   );
- }
+        <AboutHero />
+        <Achievements />
+        <EducatorProfile />
+        <OurValues />
+        <OurJourney />
+        <VisionCTA />
+      </main>
+    </>
+  );
+}
 
 // 1. Hero Section
 const AboutHero = () => (

@@ -1,4 +1,5 @@
-import { BookOpen, Clock, Combine, GraduationCap, Target, Trophy, UserCheck, Users, Wifi } from "lucide-react";
+import { SITE } from '@/lib/site';
+import { BookOpen, Clock, Combine, Facebook, GraduationCap, Instagram, Target, Trophy, Twitter, UserCheck, Users, Wifi, Youtube } from "lucide-react";
 
 // Features data
 const Features = [
@@ -209,24 +210,92 @@ const FaqData = [
 
 //Benefits data
 const Benefits = [
-   "Free demo class for new students",
-   "Flexible batch timings",
-   "Small batch sizes for personal attention",
-   "Regular parent-teacher meetings",
-   "Study materials included",
-   "Regular tests and assessments",
-   "Doubt clearing sessions",
-   "Career guidance and counseling",
+  "Free demo class for new students",
+  "Flexible batch timings",
+  "Small batch sizes for personal attention",
+  "Regular parent-teacher meetings",
+  "Study materials included",
+  "Regular tests and assessments",
+  "Doubt clearing sessions",
+  "Career guidance and counseling",
 ];
 
 
+const MinimalistPrograms = [
+  {
+    title: "Class 10th",
+    badge: "Foundation",
+    icon: BookOpen,
+    description: "Build strong fundamentals in Math & Science with regular tests and doubt-clearing sessions.",
+    proof: "Avg. improvement: 30% in board scores",
+    href: "/classes",
+    gradient: "from-cyan-500/20 to-blue-500/20",
+    iconColor: "text-cyan-500",
+    spotlight: "rgba(6, 182, 212, 0.1)", // Cyan
+    buttonText: "Explore Class 10 Program"
+  },
+  {
+    title: "Class 11th",
+    badge: "Transition",
+    icon: GraduationCap,
+    description: "Bridge the gap between school and competitive-level thinking with structured practice.",
+    proof: "Special focus on weak-topic recovery",
+    href: "/classes",
+    gradient: "from-purple-500/20 to-pink-500/20",
+    iconColor: "text-purple-500",
+    spotlight: "rgba(168, 85, 247, 0.1)", // Purple
+    buttonText: "Explore Class 11 Program"
+  },
+  {
+    title: "Class 12th",
+    badge: "Result Oriented",
+    icon: Trophy,
+    description: "Exam-focused preparation with revision cycles, mock tests, and result tracking.",
+    proof: "50+ students scored 90+ marks",
+    href: "/classes",
+    gradient: "from-emerald-500/20 to-green-500/20",
+    iconColor: "text-emerald-500",
+    spotlight: "rgba(16, 185, 129, 0.1)", // Emerald
+    buttonText: "Explore Class 12 Program"
+  }
+];
+
+const FooterQuickLinks = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Courses", href: "/classes" },
+  { label: "Admission Enquiry", href: "/contact" },
+];
+
+const SocialMediaLinks = [
+  {
+    href: SITE.youtubeUrl,
+    icon: Youtube,
+    className: "hover:bg-red-600/10 hover:text-red-600",
+    label: "Follow us on YouTube",
+  },
+  {
+    href: SITE.instagramUrl,
+    icon: Instagram,
+    className: "hover:bg-pink-600/10 hover:text-pink-600",
+    label: "Follow us on Instagram",
+  },
+  {
+    href: SITE.facebookUrl,
+    icon: Facebook,
+    className: "hover:bg-blue-600/10 hover:text-blue-600",
+    label: "Follow us on Facebook",
+  },
+  {
+    href: SITE.twitterUrl,
+    icon: Twitter,
+    className: "hover:bg-white/10 hover:text-white",
+    label: "Follow us on Twitter/X",
+  },
+];
+
 export {
-  Features,
-  Videos,
-  Testimonials,
-  ClassLevels,
-  CourseOptions,
-  AdmissionSteps,
-  FaqData,
-  Benefits,
+  AdmissionSteps, Benefits, ClassLevels,
+  CourseOptions, FaqData, Features, FooterQuickLinks, MinimalistPrograms, SocialMediaLinks, Testimonials, Videos
 };
+

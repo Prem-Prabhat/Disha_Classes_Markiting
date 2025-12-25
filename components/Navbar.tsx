@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { SITE } from "@/lib/site";
+import { AnimatePresence, motion } from "framer-motion";
+import { ExternalLink, Menu, MessageCircle, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, MessageCircle, ExternalLink } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
-import { SITE } from "@/lib/site";
 
 // Types
 interface NavItem {
@@ -87,11 +87,10 @@ export default function Navbar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -80, opacity: 0 }}
           transition={{ duration: 0.35 }}
-          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-            scrolled
-              ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-md border-b border-gray-200/50 dark:border-gray-800/50"
-              : "bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-transparent"
-          }`}
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+            ? "bg-white/80 dark:bg-[#030303]/75 backdrop-blur-md border-b border-gray-200 dark:border-white/5 shadow-sm"
+            : "bg-transparent border-b border-transparent py-2"
+            }`}
           role="navigation"
           aria-label="Main navigation"
         >
@@ -112,6 +111,7 @@ export default function Navbar() {
                   height={shrink ? 36 : 42}
                   className="object-contain rounded-lg group-hover:scale-105 transition-transform"
                   priority
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                   {SITE.title}
@@ -119,30 +119,18 @@ export default function Navbar() {
               </Link>
 
               {/* Desktop Nav Links */}
-              <nav className="hidden md:flex items-center space-x-2">
+              <nav className="hidden md:flex items-center space-x-1">
                 {navItems.map((item) => (
                   <Link
                     key={item.name}
                     href={item.path as any} // FIXED: Type error ko theek karne ke liye
-                    className={`relative px-4 py-2 rounded-md text-base font-medium transition-colors ${
-                      isActive(item.path)
-                        ? "text-blue-600 dark:text-blue-400"
-                        : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-                    }`}
+                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${isActive(item.path)
+                      ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/10"
+                      : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100/50 dark:hover:bg-white/5"
+                      }`}
                     aria-current={isActive(item.path) ? "page" : undefined}
                   >
                     {item.name}
-                    {isActive(item.path) && (
-                      <motion.span
-                        layoutId="activeUnderline"
-                        className="absolute left-0 right-0 -bottom-0.5 h-0.5 rounded-full bg-blue-600 dark:bg-blue-400"
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 30,
-                        }}
-                      />
-                    )}
                   </Link>
                 ))}
               </nav>
@@ -151,10 +139,10 @@ export default function Navbar() {
               <div className="hidden md:flex items-center space-x-3">
                 {SITE.phone && (
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={handleWhatsApp}
-                    className="border-green-500 text-green-600 dark:border-green-400 dark:text-green-400 hover:bg-green-500 hover:text-white h-10"
+                    className="text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 border border-green-200 dark:border-green-800/30 h-9 px-4 rounded-full"
                     aria-label="Contact us on WhatsApp"
                   >
                     <MessageCircle className="w-4 h-4 mr-2" />
@@ -163,7 +151,7 @@ export default function Navbar() {
                 )}
                 <Button
                   asChild
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold h-10"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold h-9 px-6 rounded-full shadow-lg shadow-blue-500/20 border border-blue-400/20 transition-all hover:scale-105"
                 >
                   <a
                     href={SITE.lmsUrl}
@@ -171,7 +159,7 @@ export default function Navbar() {
                     rel="noopener noreferrer"
                     aria-label="Visit our Learning Management System"
                   >
-                    <span>LMS Login</span>
+                    <span>Student Login</span>
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </a>
                 </Button>
@@ -239,11 +227,10 @@ export default function Navbar() {
                         key={item.name}
                         href={item.path as any} // FIXED: Type error ko theek karne ke liye
                         onClick={closeMobileMenu}
-                        className={`block px-3 py-3 rounded-lg text-lg font-semibold ${
-                          isActive(item.path)
-                            ? "text-white bg-blue-600"
-                            : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                        }`}
+                        className={`block px-3 py-3 rounded-lg text-lg font-semibold ${isActive(item.path)
+                          ? "text-white bg-blue-600"
+                          : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                          }`}
                         aria-current={isActive(item.path) ? "page" : undefined}
                       >
                         {item.name}
@@ -275,7 +262,7 @@ export default function Navbar() {
                         rel="noopener noreferrer"
                         onClick={closeMobileMenu}
                       >
-                        <span>Go to LMS</span>
+                        <span>Student Login</span>
                         <ExternalLink className="w-4 h-4 ml-2" />
                       </a>
                     </Button>

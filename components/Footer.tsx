@@ -1,23 +1,23 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { FooterQuickLinks, MinimalistPrograms, SocialMediaLinks } from "@/lib/data";
+import { SITE } from "@/lib/site";
 import {
-  MapPin,
-  Phone,
+  ArrowUpRight,
   Mail,
-  Youtube,
-  Instagram,
-  Facebook,
+  MapPin,
   MessageCircle,
-  X as TwitterX,
+  Phone,
+  Sparkles
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { SITE } from "@/lib/site";
+import { useState } from "react";
 
 // ----------------- Types -----------------
 interface FooterLinkProps {
-  href: string; 
+  href: string;
   children: React.ReactNode;
 }
 
@@ -29,54 +29,30 @@ interface SocialIconProps {
 }
 
 // ----------------- Social Links -----------------
-const socialLinks: SocialIconProps[] = [
-  {
-    href: SITE.youtubeUrl,
-    icon: Youtube,
-    className: "bg-red-600 hover:bg-red-700",
-    label: "Follow us on YouTube",
-  },
-  {
-    href: SITE.instagramUrl,
-    icon: Instagram,
-    className: "bg-pink-600 hover:bg-pink-700",
-    label: "Follow us on Instagram",
-  },
-  {
-    href: SITE.facebookUrl,
-    icon: Facebook,
-    className: "bg-blue-600 hover:bg-blue-700",
-    label: "Follow us on Facebook",
-  },
-  {
-    href: SITE.twitterUrl,
-    icon: TwitterX,
-    className: "bg-black hover:bg-gray-800",
-    label: "Follow us on Twitter/X",
-  },
-];
+// ----------------- Social Links Data Moved to @/lib/data -----------------
 
 // ----------------- Footer Link -----------------
 const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => {
-  const isExternal =
-    href.startsWith("http://") || href.startsWith("https://");
+  const isExternal = href.startsWith("http://") || href.startsWith("https://");
 
   return (
-    <li>
+    <li className="group">
       {isExternal ? (
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
+          className="text-gray-400 hover:text-blue-400 transition-all duration-300 text-sm flex items-center gap-1.5 hover:translate-x-1"
         >
+          <span className="w-0 h-[1px] bg-blue-400 group-hover:w-3 transition-all duration-300" />
           {children}
         </a>
       ) : (
         <Link
           href={href as any}
-          className="text-gray-300 hover:text-white hover:underline underline-offset-4 transition-colors"
+          className="text-gray-400 hover:text-blue-400 transition-all duration-300 text-sm flex items-center gap-1.5 hover:translate-x-1"
         >
+          <span className="w-0 h-[1px] bg-blue-400 group-hover:w-3 transition-all duration-300" />
           {children}
         </Link>
       )}
@@ -99,15 +75,18 @@ const SocialIcon: React.FC<SocialIconProps> = ({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={`${className} p-2 rounded-full transition-colors text-white`}
+      className={`${className} relative p-2.5 rounded-full transition-all duration-300 text-gray-400 bg-white/5 border border-white/10 hover:scale-110 hover:shadow-lg group overflow-hidden`}
     >
-      <Icon className="w-5 h-5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <Icon className="w-5 h-5 relative z-10" />
     </a>
   );
 };
 
 // ----------------- Footer -----------------
 export default function Footer() {
+  const [hoveredProgram, setHoveredProgram] = useState < number | null > (null);
+
   const handleWhatsApp = () => {
     if (typeof SITE.whatsAppUrl === "function") {
       window.open(
@@ -120,178 +99,239 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden bg-gray-900 border-t border-gray-800">
-      {/* Background gradients */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background/10 to-primary/10 opacity-50" />
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    <footer className="relative overflow-hidden bg-[#030303] border-t border-white/5">
+      {/* Consistent Premium Aurora Background */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
+        <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] mix-blend-lighten opacity-50" />
+        <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[120px] mix-blend-lighten opacity-50" />
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-white">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Brand & App Link */}
-          <div className="lg:col-span-4 space-y-4">
-            <Link href="/" className="flex items-center space-x-3 group">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20 text-white">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+          {/* Brand & Description */}
+          <div className="lg:col-span-4 space-y-6">
+            <Link href="/" className="flex items-center space-x-3 group w-fit">
               <div className="relative">
+                <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-md group-hover:bg-blue-500/30 transition-all duration-300" />
                 <Image
                   src="/logo.jpg"
                   alt="Disha Class Logo"
-                  width={56}
-                  height={56}
-                  className="rounded-lg object-contain transition-transform group-hover:scale-105"
+                  width={48}
+                  height={48}
+                  className="relative rounded-xl object-contain ring-1 ring-white/10 group-hover:ring-blue-500/50 transition-all duration-300 group-hover:scale-105"
                   priority={false}
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
-              <span className="text-2xl font-bold group-hover:text-primary transition-colors">
-                Disha Class
-              </span>
+              <div>
+                <span className="text-xl font-bold font-heading bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-gray-400 group-hover:to-white transition-all block">
+                  दिशा Class
+                </span>
+                <span className="text-[10px] text-gray-500 flex items-center gap-1 mt-0.5">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  Since 2016
+                </span>
+              </div>
             </Link>
 
-            <p className="text-gray-300 text-base pr-4 leading-relaxed">
-              Empowering students with excellent Math & Science education. Your
-              success is our mission.
+            <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
+              Empowering students with excellent{" "}
+              <span className="text-blue-400 font-medium">Math & Science</span>{" "}
+              education. Bridging the gap between potential and performance.
             </p>
 
-            {/* WhatsApp Button */}
+            {/* WhatsApp Button with Enhanced Style */}
             {(typeof SITE.whatsAppUrl === "string" ||
               typeof SITE.whatsAppUrl === "function") && (
-              <Button
-                onClick={handleWhatsApp}
-                className="w-full justify-center bg-green-500 hover:bg-green-600 text-white h-11 transition-colors"
-                aria-label="Contact us on WhatsApp"
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Chat on WhatsApp
-              </Button>
-            )}
-
-            {/* Google Play Badge */}
-            {SITE.googlePlayUrl && (
-              <div className="mt-4">
-                <a
-                  href={SITE.googlePlayUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Download our app from Google Play Store"
-                  className="inline-block"
+                <Button
+                  onClick={handleWhatsApp}
+                  className="group relative w-full sm:w-auto px-6 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-600 text-white h-11 rounded-full shadow-lg shadow-green-500/25 border border-green-400/30 transition-all hover:scale-105 hover:shadow-xl hover:shadow-green-500/30 overflow-hidden"
+                  aria-label="Contact us on WhatsApp"
                 >
-                  <Image
-                    src="/google-play-badge.png"
-                    alt="Get it on Google Play"
-                    width={160}
-                    height={60}
-                    className="hover:opacity-80 transition-opacity"
-                  />
-                </a>
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  <MessageCircle className="w-4 h-4 mr-2 relative z-10 group-hover:rotate-12 transition-transform" />
+                  <span className="relative z-10">Chat on WhatsApp</span>
+                </Button>
+              )}
+
+            {/* Social Links */}
+            <div className="pt-2">
+              <p className="text-xs text-gray-500 mb-3 font-medium tracking-wider uppercase">
+                Connect With Us
+              </p>
+              <div className="flex items-center gap-3">
+                {SocialMediaLinks.map((link, index) => (
+                  <SocialIcon key={`${link.href}-${index}`} {...link} />
+                ))}
               </div>
-            )}
+            </div>
           </div>
 
-          {/* Links */}
-          <div className="lg:col-span-5 grid grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+          {/* Links Sections */}
+          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {/* Quick Links */}
+            <div className="group">
+              <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+                <span className="w-1 h-5 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+                Quick Links
+              </h3>
               <ul className="space-y-3">
-                <FooterLink href="/">Home</FooterLink>
-                <FooterLink href="/about">About Us</FooterLink>
-                <FooterLink href="/classes">Classes</FooterLink>
-                <FooterLink href="/contact">Contact</FooterLink>
+                {FooterQuickLinks.map((link, index) => (
+                  <FooterLink key={index} href={link.href}>
+                    {link.label}
+                  </FooterLink>
+                ))}
               </ul>
             </div>
+
+            {/* Programs */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Our Programs</h3>
-              <ul className="space-y-3 text-gray-300">
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></span>
-                  Class 10th - Math & Science
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></span>
-                  Class 11th - Math & Science
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></span>
-                  Class 12th - Math & Science
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-primary rounded-full mr-2 flex-shrink-0"></span>
-                  Board Exam Preparation
-                </li>
+              <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+                <span className="w-1 h-5 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full" />
+                Our Programs
+              </h3>
+              <ul className="space-y-4">
+                {MinimalistPrograms.map((program, index) => (
+                  <li
+                    key={index}
+                    onMouseEnter={() => setHoveredProgram(index)}
+                    onMouseLeave={() => setHoveredProgram(null)}
+                  >
+                    <Link
+                      href={program.href as any}
+                      className="group/program flex items-center text-sm text-gray-400 hover:text-blue-400 transition-all duration-300"
+                    >
+                      <span className="text-[10px] font-mono text-gray-600 mr-3 group-hover/program:text-blue-500 transition-colors font-bold">
+                        0{index + 1}
+                      </span>
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full mr-2.5 transition-all duration-300 ${hoveredProgram === index ? "w-4" : ""
+                          } ${index === 0
+                            ? "bg-cyan-500 group-hover/program:bg-cyan-400 group-hover/program:shadow-lg group-hover/program:shadow-cyan-400/50"
+                            : index === 1
+                              ? "bg-purple-500 group-hover/program:bg-purple-400 group-hover/program:shadow-lg group-hover/program:shadow-purple-400/50"
+                              : "bg-emerald-500 group-hover/program:bg-emerald-400 group-hover/program:shadow-lg group-hover/program:shadow-emerald-400/50"
+                          }`}
+                      />
+                      <span className="group-hover/program:translate-x-1 transition-transform duration-300">
+                        {program.title}
+                      </span>
+                      <ArrowUpRight className="w-3 h-3 ml-1 opacity-0 group-hover/program:opacity-100 transition-all duration-300 -translate-y-1 group-hover/program:translate-y-0" />
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
-          </div>
 
-          {/* Contact Info */}
-          <div className="lg:col-span-3">
-            <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
-            <div className="space-y-4 text-gray-300">
-              {/* Address */}
-              {SITE.addressLine1 && (
-                <a
-                  href={
-                    SITE.googleMapsUrl ||
-                    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                      SITE.addressLine1
-                    )}`
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-start space-x-3 group hover:bg-white/5 p-2 rounded-lg transition-colors"
-                  aria-label="View location on Google Maps"
-                >
-                  <MapPin className="w-5 h-5 mt-1 text-blue-300 flex-shrink-0" />
-                  <span className="group-hover:text-white transition-colors">
-                    {SITE.addressLine1}
-                  </span>
-                </a>
-              )}
+            {/* Contact Info */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-base font-semibold text-white mb-6 flex items-center gap-2">
+                  <span className="w-1 h-5 bg-gradient-to-b from-pink-500 to-orange-500 rounded-full" />
+                  Get in Touch
+                </h3>
+                <div className="space-y-4">
+                  {/* Address */}
+                  {SITE.addressLine1 && (
+                    <a
+                      href={
+                        SITE.googleMapsUrl ||
+                        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          SITE.addressLine1
+                        )}`
+                      }
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-start gap-3 group/contact relative"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-blue-500/20 rounded-lg blur-md opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300" />
+                        <MapPin className="relative w-5 h-5 text-gray-500 group-hover/contact:text-blue-400 transition-all duration-300 mt-0.5 group-hover/contact:scale-110" />
+                      </div>
+                      <span className="text-sm text-gray-400 group-hover/contact:text-gray-200 transition-colors">
+                        {SITE.addressLine1}
+                      </span>
+                    </a>
+                  )}
 
-              {/* Phone */}
-              {SITE.phone && (
-                <a
-                  href={`tel:${SITE.phone}`}
-                  className="flex items-center space-x-3 group hover:bg-white/5 p-2 rounded-lg transition-colors"
-                  aria-label="Call us"
-                >
-                  <Phone className="w-5 h-5 text-blue-300" />
-                  <span className="group-hover:text-white transition-colors">
-                    {SITE.phoneDisplay || SITE.phone}
-                  </span>
-                </a>
-              )}
+                  {/* Phone */}
+                  {SITE.phone && (
+                    <a
+                      href={`tel:${SITE.phone}`}
+                      className="flex items-center gap-3 group/contact relative"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-green-500/20 rounded-lg blur-md opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300" />
+                        <Phone className="relative w-5 h-5 text-gray-500 group-hover/contact:text-green-400 transition-all duration-300 group-hover/contact:scale-110 group-hover/contact:rotate-12" />
+                      </div>
+                      <span className="text-sm text-gray-400 group-hover/contact:text-gray-200 transition-colors">
+                        {SITE.phoneDisplay || SITE.phone}
+                      </span>
+                    </a>
+                  )}
 
-              {/* Email */}
-              {SITE.email && (
-                <a
-                  href={`mailto:${SITE.email}`}
-                  className="flex items-center space-x-3 group hover:bg-white/5 p-2 rounded-lg transition-colors"
-                  aria-label="Email us"
-                >
-                  <Mail className="w-5 h-5 text-blue-300" />
-                  <span className="group-hover:text-white transition-colors break-all">
-                    {SITE.email}
-                  </span>
-                </a>
-              )}
+                  {/* Email */}
+                  {SITE.email && (
+                    <a
+                      href={`mailto:${SITE.email}`}
+                      className="flex items-center gap-3 group/contact relative"
+                    >
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-yellow-500/20 rounded-lg blur-md opacity-0 group-hover/contact:opacity-100 transition-opacity duration-300" />
+                        <Mail className="relative w-5 h-5 text-gray-500 group-hover/contact:text-yellow-400 transition-all duration-300 group-hover/contact:scale-110" />
+                      </div>
+                      <span className="text-sm text-gray-400 group-hover/contact:text-gray-200 transition-colors break-all">
+                        {SITE.email}
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-300 text-sm text-center md:text-left">
-              &copy; {new Date().getFullYear()} {SITE.title}. All Rights
-              Reserved.
-            </p>
+        <div className="relative border-t border-white/5 mt-16 pt-8">
+          {/* Gradient Line */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
 
-            {/* Social Links */}
-            <div className="flex space-x-3">
-              {socialLinks.map((link, index) => (
-                <SocialIcon key={`${link.href}-${index}`} {...link} />
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            {/* Copyright */}
+            <div className="text-gray-500 text-xs text-center md:text-left">
+              <p className="flex items-center gap-2 justify-center md:justify-start">
+                &copy; {new Date().getFullYear()}{" "}
+                <span className="text-gray-400 font-medium">{SITE.title}</span>
+                <span className="text-gray-600">•</span>
+                <span>All Rights Reserved</span>
+              </p>
+              <p className="mt-2 flex items-center gap-1.5 justify-center md:justify-start">
+                <span>Built with</span>
+                <span className="text-red-500 animate-pulse">❤️</span>
+                <span>by</span>
+                <a
+                  href="https://premprabhat.site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-white transition-all duration-300 border-b border-dashed border-gray-600 hover:border-blue-400 hover:scale-105 inline-block font-medium"
+                >
+                  Prem Prabhat
+                </a>
+              </p>
+            </div>
+
+            {/* Social Links (Desktop) */}
+            <div className="hidden md:flex items-center gap-3">
+              {SocialMediaLinks.map((link, index) => (
+                <SocialIcon key={`bottom-${link.href}-${index}`} {...link} />
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Bottom Glow */}
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
     </footer>
   );
 }

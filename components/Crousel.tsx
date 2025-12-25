@@ -1,11 +1,10 @@
 "use client"
 
-import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import { MessageCircle } from "lucide-react"
-import { useEffect, useMemo, useState } from "react"
-import Link from "next/link"
 import { SITE } from "@/lib/site"
+import { AnimatePresence, motion } from "framer-motion"
+import { MessageCircle } from "lucide-react"
+import Image from "next/image"
+import { useEffect, useMemo, useState } from "react"
 
 interface ImageItem {
   src: string
@@ -69,14 +68,14 @@ export default function HeroCarousel({ images, className, intervalMs = 5000 }: C
 
         {/* Static text, only animated ONCE on mount */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-8">
-          <motion.h2
+          <motion.h1
             className="text-blue-600 text-4xl sm:text-6xl font-bold mb-4 drop-shadow-lg"
             initial={{ y: 40, opacity: 0 }}
             animate={mounted ? { y: 0, opacity: 1 } : {}}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             Empower Your Learning Journey
-          </motion.h2>
+          </motion.h1>
           <motion.p
             className="text-white/90 text-lg sm:text-xl max-w-2xl mb-8"
             initial={{ y: 40, opacity: 0 }}

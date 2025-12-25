@@ -1,9 +1,11 @@
 "use client";
 
+import { generateVideoSchema } from "@/lib/seo";
 import { motion } from "framer-motion";
 import { PlayCircle } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import StructuredData from "./StructuredData";
 
 interface VideoCardProps {
   videoId: string;
@@ -102,6 +104,14 @@ export default function YouTubePreview({
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
             >
+              <StructuredData
+                data={generateVideoSchema({
+                  videoId: video.videoId,
+                  title: video.title,
+                  description: video.description,
+                  thumbnailUrl: `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`
+                })}
+              />
               <VideoCard
                 videoId={video.videoId}
                 title={video.title}

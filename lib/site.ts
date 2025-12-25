@@ -1,7 +1,7 @@
 import { env } from './env';
 
 export const SITE = {
-  title: env.SITE_TITLE || "Disha Class",
+  title: env.NEXT_PUBLIC_SITE_TITLE || "दिशा Class",
 
   description:
     env.SITE_DESCRIPTION ||

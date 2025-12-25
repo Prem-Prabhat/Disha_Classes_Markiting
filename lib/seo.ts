@@ -29,6 +29,7 @@ export function generateMetadata(config: SEOConfig): Metadata {
     description,
     keywords: config.keywords || [
       "Disha Class",
+      "Disha Classes Nawada",
       "coaching center",
       "Math & Science",
       "10th class",
@@ -39,6 +40,14 @@ export function generateMetadata(config: SEOConfig): Metadata {
       "education",
       "tutoring",
       "board exam preparation",
+      "Physics coaching",
+      "Chemistry classes",
+      "Biology coaching",
+      "JEE foundation",
+      "NEET foundation",
+      "BSEB coaching",
+      "CBSE coaching",
+      "Abodh Kumar",
     ],
     authors: [{ name: SITE.author }],
     creator: SITE.author,
@@ -208,5 +217,24 @@ export function generateFAQSchema(
         text: faq.answer,
       },
     })),
+  };
+}
+
+export function generateVideoSchema(video: {
+  videoId: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  uploadDate?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: video.thumbnailUrl,
+    uploadDate: video.uploadDate || new Date().toISOString(),
+    embedUrl: `https://www.youtube.com/embed/${video.videoId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${video.videoId}`,
   };
 }

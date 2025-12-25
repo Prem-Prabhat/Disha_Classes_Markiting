@@ -1,10 +1,11 @@
-import type { Metadata } from 'next';
-import { SITE } from '@/lib/site';
-import ContactForm from '@/components/forms/ContactForm';
-import Link from 'next/link';
-import { Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { generateMetadata } from '@/lib/seo';
+import { SITE } from '@/lib/site';
+import { ExternalLink, Mail, MapPin, Phone } from 'lucide-react';
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+
+const ContactForm = dynamic(() => import('@/components/forms/ContactForm'));
 
 export const metadata: Metadata = generateMetadata({
   title: 'Contact Us',
