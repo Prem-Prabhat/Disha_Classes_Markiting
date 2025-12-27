@@ -42,9 +42,12 @@ export default function HeroCarousel({ images, className, intervalMs = 5000 }: C
 
     return (
         <section className={`relative pt-12 pb-12 lg:pt-20 lg:pb-16 overflow-hidden ${className ?? ""}`}>
-            {/* Background Gradient elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+            {/* Premium Ambient Background (Subtle & Deep - Consistent with About Page) */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none">
+                <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-lighten opacity-70 animate-blob" />
+                <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] mix-blend-multiply dark:mix-blend-lighten opacity-70 animate-blob animation-delay-2000" />
+            </div>
 
             <div className="max-w-7xl mx-auto px-6 sm:px-12 relative z-10">
                 <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
