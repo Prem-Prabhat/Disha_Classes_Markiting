@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { SITE } from '@/lib/site';
-import { animate, motion, useInView, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Clock, GraduationCap, Trophy } from 'lucide-react';
-import Image from 'next/image';
-import { MouseEvent, useEffect, useRef } from 'react';
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { SITE } from "@/lib/site";
+import { animate, motion, useInView } from "framer-motion";
+import { ArrowRight, CheckCircle2, Clock, GraduationCap, Trophy } from "lucide-react";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 // --- Animated Counter Component ---
 function Counter({ from = 0, to, suffix = "", duration = 2 }: { from?: number, to: number, suffix?: string, duration?: number }) {
@@ -27,39 +28,6 @@ function Counter({ from = 0, to, suffix = "", duration = 2 }: { from?: number, t
     }, [from, to, suffix, duration, inView]);
 
     return <span ref={nodeRef} />;
-}
-
-// --- Spotlight Card Component ---
-function SpotlightCard({ children, className = "", spotlightColor = "rgba(59, 130, 246, 0.15)" }: { children: React.ReactNode; className?: string; spotlightColor?: string }) {
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-        const { left, top } = currentTarget.getBoundingClientRect();
-        mouseX.set(clientX - left);
-        mouseY.set(clientY - top);
-    }
-
-    return (
-        <div
-            className={`group relative border border-gray-200 dark:border-white/10 bg-white/50 dark:bg-white/5 overflow-hidden rounded-2xl ${className}`}
-            onMouseMove={handleMouseMove}
-        >
-            <motion.div
-                className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100"
-                style={{
-                    background: useMotionTemplate`
-                        radial-gradient(
-                          650px circle at ${mouseX}px ${mouseY}px,
-                          ${spotlightColor},
-                          transparent 80%
-                        )
-                      `,
-                }}
-            />
-            <div className="relative h-full">{children}</div>
-        </div>
-    );
 }
 
 const features = [

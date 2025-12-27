@@ -1,7 +1,7 @@
 "use client";
 
+import { animate, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { useInView, animate } from "framer-motion";
 
 type AnimatedNumberProps = {
     to: number;
@@ -10,7 +10,7 @@ type AnimatedNumberProps = {
 };
 
 export default function AnimatedNumber({ to, from = 0, className }: AnimatedNumberProps) {
-    const ref = useRef<HTMLParagraphElement>(null);
+    const ref = useRef < HTMLParagraphElement > (null);
     const isInView = useInView(ref, { once: true }); // Trigger animation only once
 
     useEffect(() => {

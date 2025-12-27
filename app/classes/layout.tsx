@@ -1,12 +1,26 @@
-import { generateMetadata } from '@/lib/seo';
-import type { Metadata } from 'next';
+import { Metadata } from "next";
 
-export const metadata: Metadata = generateMetadata({
-    title: 'Our Classes',
-    description: 'Explore our Math and Science courses for Class 10th, 11th, and 12th in Nawada. Foundation courses for JEE and NEET available.',
-    url: '/classes',
-    keywords: ['Math classes Nawada', 'Science classes Nawada', 'Class 10 coaching', 'Class 12 Physics', 'Chemistry coaching']
-});
+export const metadata: Metadata = {
+    title: "Our Programs | Disha Class - Class 10th, 11th & 12th Coaching",
+    description:
+        "Specialized coaching for Class 10th, 11th & 12th in Math & Science. Expert faculty, flexible batches, and proven results. Join online, offline, or hybrid batches.",
+    keywords: [
+        "Class 10 coaching",
+        "Class 11 coaching",
+        "Class 12 coaching",
+        "Board exam preparation",
+        "Math Science tuition",
+        "Nawada coaching",
+        "Online classes",
+        "Best coaching Bihar",
+    ],
+    openGraph: {
+        title: "Our Programs | Disha Class",
+        description:
+            "Specialized coaching for Class 10th, 11th & 12th with expert faculty and proven results.",
+        type: "website",
+    },
+};
 
 export default function ClassesLayout({
     children,

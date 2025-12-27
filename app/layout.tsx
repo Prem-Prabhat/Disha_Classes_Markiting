@@ -1,10 +1,9 @@
-import ErrorBoundary from '@/components/ErrorBoundary';
-import Footer from "@/components/Footer";
-import Navbar from '@/components/Navbar';
-import StructuredData from '@/components/StructuredData';
-import { ToastProvider } from '@/components/ToastProvider';
-import WhatsAppButton from '@/components/WhatsAppButton';
-import { validateEnv } from '@/lib/env';
+import ErrorBoundary from '@/components/layout/ErrorBoundary';
+import Footer from "@/components/layout/Footer";
+import Navbar from '@/components/layout/Navbar';
+import { ToastProvider } from '@/components/layout/ToastProvider';
+import StructuredData from '@/components/shared/StructuredData';
+import WhatsAppButton from '@/components/shared/WhatsAppButton';
 import { generateMetadata, generateOrganizationSchema } from '@/lib/seo';
 import { SITE } from '@/lib/site';
 import { Analytics } from "@vercel/analytics/next";
@@ -28,11 +27,6 @@ export const metadata: Metadata = generateMetadata({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // Validate environment variables in development
-  if (process.env.NODE_ENV === 'development') {
-    validateEnv();
-  }
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head>

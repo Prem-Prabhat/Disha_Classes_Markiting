@@ -1,20 +1,19 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { SITE } from '@/lib/site';
-import { motion } from 'framer-motion';
+import { Button } from "@/components/ui/button";
+import { SITE } from "@/lib/site";
+import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, MessageCircle, Sparkles } from "lucide-react";
 
 export default function CTASection() {
     // WhatsApp handler
     const handleWhatsApp = () => {
-        if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === 'function' && SITE.phone) {
+        if (SITE.whatsAppUrl && typeof SITE.whatsAppUrl === "function" && SITE.phone) {
             const message = "Hi! I'm interested in classes at Disha Class. Can you share more info?";
             window.open(SITE.whatsAppUrl(message), "_blank");
         }
     };
 
-    /* ... existing code ... */
     return (
         <section className="relative py-20 bg-gray-50 dark:bg-[#030303] overflow-hidden">
             {/* Background Effects */}
