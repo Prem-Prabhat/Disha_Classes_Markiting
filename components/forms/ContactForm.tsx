@@ -187,10 +187,12 @@ export default function ContactForm() {
         )}
       </button>
 
-      {/* reCAPTCHA Badge */}
-      <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
-        <Shield className="w-3 h-3" />
-        <span>Protected by reCAPTCHA</span>
+      {/* reCAPTCHA Badge - Pill Style */}
+      <div className="flex items-center justify-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/20 text-xs text-green-600 dark:text-green-400 hover:from-green-500/20 hover:to-blue-500/20 transition-all cursor-default">
+          <Shield className="w-3.5 h-3.5" />
+          <span className="font-medium">Protected by reCAPTCHA</span>
+        </div>
       </div>
     </form>
   );
